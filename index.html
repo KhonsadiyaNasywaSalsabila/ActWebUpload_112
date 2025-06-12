@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Unggah File dengan Preview</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Unggah File</h2>
+        <form action="upload.php" method="post" enctype="multipart/form-data" class="upload-form">
+            <div class="file-input-container">
+                <label for="fileToUpload" class="file-label">
+                    <span class="file-icon">📁</span>
+                    <span class="file-text">Pilih File (Maks. 1MB)</span>
+                    <input type="file" name="fileToUpload" id="fileToUpload" class="file-input" required>
+                </label>
+                
+                <div id="filePreview" class="file-preview">
+                    <div id="previewContent"></div>
+                    <div id="fileSizeWarning" class="warning-message"></div>
+                </div>
+            </div>
+            
+            <input type="submit" value="Unggah File" name="submit" class="submit-btn" id="submitBtn" disabled>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('fileToUpload').addEventListener('change', function(e) {
+            const previewContent = document.getElementById('previewContent');
+            const sizeWarning = document.getElementById('fileSizeWarning');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (this.files.length > 0) {
+                const file = this.files[0];
+                const fileSizeMB = (file.size / (1024*1024)).toFixed(2);
+                
+                // Validasi ukuran file (1MB)
+                if (file.size > 1024 * 1024) { // 1MB in bytes
+                    sizeWarning.innerHTML = `❌ File terlalu besar (${fileSizeMB} MB). Maksimal 1MB!`;
+                    submitBtn.disabled = true;
+                    previewContent.innerHTML = '';
+                    return;
+                } else {
+                    sizeWarning.innerHTML = '';
+                    submitBtn.disabled = false;
+                }
+                
+                let previewHTML = '';
+                const fileType = file.name.split('.').pop().toLowerCase();
+                const fileURL = URL.createObjectURL(file);
+
+                // Preview untuk gambar
+                if (['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
+                    previewHTML = `
+                        <div class="preview-image">
+                            <img src="${fileURL}" alt="Preview Gambar">
+                            <div class="file-meta">
+                                <span class="file-name">${file.name}</span>
+                                <span class="file-size">${fileSizeMB} MB</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                // Preview untuk PDF menggunakan <embed>
+                else if (fileType === 'pdf') {
+                    previewHTML = `
+                        <div class="preview-pdf">
+                            <embed src="${fileURL}" type="application/pdf">
+                             <div class="file-meta">
+                                <span class="file-name">${file.name}</span>
+                                <span class="file-size">${fileSizeMB} MB</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                // Preview untuk file lain (tetap pakai ikon)
+                else {
+                    let icon = '📄';
+                    if (['doc', 'docx'].includes(fileType)) icon = '📝';
+                    if (['zip', 'rar'].includes(fileType)) icon = '🗄️';
+                    
+                    previewHTML = `
+                        <div class="preview-generic">
+                            <span class="file-icon-big">${icon}</span>
+                            <div class="file-meta">
+                                <span class="file-name">${file.name}</span>
+                                <span class="file-size">${fileSizeMB} MB</span>
+                                <span class="file-type">${fileType.toUpperCase()}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                previewContent.innerHTML = previewHTML;
+            } else {
+                previewContent.innerHTML = '';
+                sizeWarning.innerHTML = '';
+                submitBtn.disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
