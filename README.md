@@ -2,7 +2,7 @@ Sebelum Unggah![Screenshot 2025-06-12 174320](https://github.com/user-attachment
 
 Preview PDF ![Screenshot 2025-06-12 174426](https://github.com/user-attachments/assets/98d41935-4e70-468c-a5ff-1f9a289f431f)
 
-Preview Gambar![Screenshot 2025-06-12 174635](https://github.com/user-attachments/assets/26e38688-d8c1-4bc3-bb04-085d2efabceb)
+Preview Gambar![Screenshot 2025-06-12 184835](https://github.com/user-attachments/assets/81a47303-72c1-4889-a48f-b4859ca31fd6)
 
 List File ![Screenshot 2025-06-12 174537](https://github.com/user-attachments/assets/fe24fb6d-0d65-41a8-9cc0-f8e9f51197dd)
 
